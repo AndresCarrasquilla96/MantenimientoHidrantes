@@ -1,0 +1,4 @@
+driver=org.postgresql.Driver
+datasource=jdbc:postgresql://127.0.0.1:5432/db_hidrantes
+user=
+password=
