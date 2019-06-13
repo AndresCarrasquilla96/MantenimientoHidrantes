@@ -8,6 +8,14 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>FormularioInstalacion</servlet-name>
+        <servlet-class>services.FormularioInstalacion</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FormularioInstalacion</servlet-name>
+        <url-pattern>/FormularioInstalacion</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

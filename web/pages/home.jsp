@@ -9,9 +9,27 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Solicitudes</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        
+        <div class="contenedor">
+            <form>
+                <table>
+                    <tr>
+                        <td>
+                            <!--<input type="button" id='formularioInstalacion' value='Instalacion' onclick="solicitarInstalacion()">-->
+                            <button> <a href="formularioInstalacion.jsp">Instalacion</a> </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" id='formularioMatenimiento' value='Mantenimiento' onclick="solicitarMantenimiento()">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        
     </body>
 </html>

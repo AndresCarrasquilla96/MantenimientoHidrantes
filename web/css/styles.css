@@ -1,0 +1,32 @@
+html {
+    font-size: 62.5%; /** Reset para REMS / 62.5% = 10px de 16px base**/
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.6rem; /** default 16px */
+    line-height: 2;
+}
+
+.contenedor {
+    width: 95%;
+    max-width: 120rem; /** = 1200px */
+    margin: 0 auto; /* centrar contenedor*/
+}
+
+/** Login **/
+.login-table {
+    margin: 0 auto;
+    background-color: whitesmoke;
+    margin-top: 15rem;
+}
+
+/** botones **/
+.submit-btn {
+    width: 100%
+}

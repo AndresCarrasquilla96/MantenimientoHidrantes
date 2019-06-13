@@ -1,34 +1,36 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package services;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import models.User;
-import models.dao.UserDao;
+import models.dao.HidranteDao;
 
-@MultipartConfig
-public class LoginServlet extends HttpServlet {
+public class FormularioInstalacion extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        UserDao userDao = new UserDao();
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        User user = null;
-        if (username != null && password != null) {
-            user = userDao.getUserByUsernameAndPassword(username, password);
+            throws ServletException, IOException, Exception {
+        
+        HidranteDao hidrante = new HidranteDao();
+        
+        String calle = request.getParameter("calle");
+        String avenida = request.getParameter("avenida");
+        Integer numero_hidrante = Integer.parseInt(request.getParameter("numero_hidrante"));
+        Double caudal_esperado = Double.parseDouble(request.getParameter("caudal_esperado"));
+        Integer tamanio_salidas = Integer.parseInt(request.getParameter("tamanio_salidas"));
+        
+        if (calle != null && avenida != null) {
+            hidrante.ingresarHidrante(calle, avenida, numero_hidrante, caudal_esperado, tamanio_salidas);
         }
-        if (user != null) {
-            HttpSession session = request.getSession(true);
-            session.setAttribute("currentUser", user);
-            response.sendRedirect("pages/home.jsp");
-        } else {
-            response.sendRedirect("index.jsp");
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -43,7 +45,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(FormularioInstalacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -57,7 +63,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(FormularioInstalacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
