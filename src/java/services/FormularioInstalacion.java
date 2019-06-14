@@ -16,21 +16,36 @@ import models.dao.HidranteDao;
 
 public class FormularioInstalacion extends HttpServlet {
 
+//    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException, Exception {
+//        
+//        HidranteDao hidrante = new HidranteDao();
+//        
+//        String calle = request.getParameter("calle");
+//        String avenida = request.getParameter("avenida");
+//        Integer numero_hidrante = Integer.parseInt(request.getParameter("numero_hidrante"));
+//        Double caudal_esperado = Double.parseDouble(request.getParameter("caudal_esperado"));
+//        Integer tamanio_salidas = Integer.parseInt(request.getParameter("tamanio_salidas"));
+//        
+//        if (calle != null && avenida != null) {
+//            hidrante.ingresarHidrante(calle, avenida, numero_hidrante, caudal_esperado, tamanio_salidas);
+//        }
+//
+//    }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         
         HidranteDao hidrante = new HidranteDao();
         
-        String calle = request.getParameter("calle");
-        String avenida = request.getParameter("avenida");
-        Integer numero_hidrante = Integer.parseInt(request.getParameter("numero_hidrante"));
-        Double caudal_esperado = Double.parseDouble(request.getParameter("caudal_esperado"));
-        Integer tamanio_salidas = Integer.parseInt(request.getParameter("tamanio_salidas"));
+        String latitud = request.getParameter("latitud_input");
+        String longitud = request.getParameter("longitud_input");
+        String caudal_esperado = request.getParameter("caudal_esperado");
+        String tamanio_salidas = request.getParameter("tamanio_salidas");
         
-        if (calle != null && avenida != null) {
-            hidrante.ingresarHidrante(calle, avenida, numero_hidrante, caudal_esperado, tamanio_salidas);
-        }
-
+        System.out.println(latitud + " " + longitud + " " + caudal_esperado + " " + tamanio_salidas);
+        
+        hidrante.ingresarHidrante(latitud, longitud, caudal_esperado, tamanio_salidas);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

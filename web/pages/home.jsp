@@ -9,27 +9,29 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Solicitudes</title>
+        <title>Hidrantes Calle Ancha - Alajuela</title>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+              integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+              crossorigin="" />
+        <link href="../css/styles.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        
+
         <div class="contenedor">
-            <form>
-                <table>
-                    <tr>
-                        <td>
-                            <!--<input type="button" id='formularioInstalacion' value='Instalacion' onclick="solicitarInstalacion()">-->
-                            <button> <a href="formularioInstalacion.jsp">Instalacion</a> </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="button" id='formularioMatenimiento' value='Mantenimiento' onclick="solicitarMantenimiento()">
-                        </td>
-                    </tr>
-                </table>
-            </form>
+
+            <div id="map">
+
+            </div>
+
         </div>
-        
+
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+            integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+            crossorigin=""></script>
+        <script src="../js/scripts.js" type="text/javascript"></script>
+        <script src="../libs/jquery-3.4.1.min.js" type="text/javascript"></script>
     </body>
+
+
 </html>

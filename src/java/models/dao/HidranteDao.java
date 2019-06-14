@@ -53,4 +53,30 @@ public class HidranteDao {
         }
     }
 
+    //-------------------
+    private static final String PRUEBA_ALV
+            = "INSERT INTO hidrante_prueba (latitud, longitud, caudal_esperado, tamanio_salidas) VALUES "
+            + "(?, ?, ?, ?);";
+
+    public void ingresarHidrante(String latitud, String longitud, String caudal_esperado, String tamanio_salidas) throws Exception {
+        try (Connection connection = DriverManager.getConnection(
+                dbProperties.getDbDatasource(),
+                dbProperties.getDbUser(),
+                dbProperties.getDbPassword());
+                PreparedStatement ps = connection.prepareStatement(PRUEBA_ALV);) {
+            
+            ps.setString(1, latitud);
+            ps.setString(2, longitud);
+            ps.setString(3, caudal_esperado);
+            ps.setString(4, tamanio_salidas);
+
+            if (ps.executeUpdate() == 0) {
+                throw new Exception("Error en el HidranteDao ingresarHidrante()");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

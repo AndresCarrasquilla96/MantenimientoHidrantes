@@ -5,13 +5,14 @@
  */
 package models;
 
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 
 public class Hidrante implements Serializable {
     
     private Integer numero_hidrante;
-    private Double latitud;
-    private Double longitud;
+    private Point2D.Double latitud;
+    private Point2D.Double longitud;
     private String calle;
     private String caudal_esperado;
     private Integer tamanio_salidas;
@@ -20,13 +21,12 @@ public class Hidrante implements Serializable {
     public Hidrante() {
     }
 
-    public Hidrante(Integer numero_hidrante, Double latitud, Double longitud, String calle, String caudal_esperado, Integer tamanio_salidas, Boolean buen_estado) {
+    public Hidrante(Integer numero_hidrante, Point2D.Double latitud, Point2D.Double longitud, String calle, String caudal_esperado, Boolean buen_estado) {
         this.numero_hidrante = numero_hidrante;
         this.latitud = latitud;
         this.longitud = longitud;
         this.calle = calle;
         this.caudal_esperado = caudal_esperado;
-        this.tamanio_salidas = tamanio_salidas;
         this.buen_estado = buen_estado;
     }
 
@@ -38,19 +38,19 @@ public class Hidrante implements Serializable {
         this.numero_hidrante = numero_hidrante;
     }
 
-    public Double getLatitud() {
+    public Point2D.Double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(Double latitud) {
+    public void setLatitud(Point2D.Double latitud) {
         this.latitud = latitud;
     }
 
-    public Double getLongitud() {
+    public Point2D.Double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(Double longitud) {
+    public void setLongitud(Point2D.Double longitud) {
         this.longitud = longitud;
     }
 

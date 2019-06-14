@@ -39,28 +39,16 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <label for="numero_hidrante">No. Hidrante: </label>
-                                </td>
-                                <td>
-                                    <input type="text" id="numero_hidrante" placeholder="Numero hidrante" name="numero_hidrante">
-                                </td>
+                                <td> <label for="numero_hidrante">No. Hidrante: </label> </td>
+                                <td> <input type="text" id="numero_hidrante" placeholder="Numero hidrante" name="numero_hidrante"> </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <label for="caudal_esperado">Caudal: </label>
-                                </td>
-                                <td>
-                                    <input type="text" id="caudal_esperado" placeholder="Caudal esperado" name="caudal_esperado">
-                                </td>
+                                <td> <label for="caudal_esperado">Caudal: </label> </td>
+                                <td> <input type="text" id="caudal_esperado" placeholder="Caudal esperado" name="caudal_esperado"> </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <label for="tamanio_salidas">Tamaño Salida: </label>
-                                </td>
-                                <td>
-                                    <input type="text" id="tamanio_salidas" placeholder="Tamaño salida" name="tamanio_salidas">
-                                </td>
+                                <td> <label for="tamanio_salidas">Tamaño Salida: </label> </td>
+                                <td> <input type="text" id="tamanio_salidas" placeholder="Tamaño salida" name="tamanio_salidas"> </td>
                             </tr>
                         </tbody>
 
