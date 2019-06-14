@@ -46,6 +46,9 @@ public class FormularioInstalacion extends HttpServlet {
         System.out.println(latitud + " " + longitud + " " + caudal_esperado + " " + tamanio_salidas);
         
         hidrante.ingresarHidrante(latitud, longitud, caudal_esperado, tamanio_salidas);
+        
+        response.sendRedirect("pages/home.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

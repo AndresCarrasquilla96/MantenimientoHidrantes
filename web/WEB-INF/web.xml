@@ -4,6 +4,10 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>services.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Hidrantes</servlet-name>
+        <servlet-class>services.Hidrantes</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>FormularioInstalacion</servlet-name>
         <url-pattern>/FormularioInstalacion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Hidrantes</servlet-name>
+        <url-pattern>/Hidrantes</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

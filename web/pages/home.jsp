@@ -18,6 +18,8 @@
     </head>
     <body>
 
+        <button onclick="actualizarMarcadores()">botonAlv</button>
+        
         <div class="contenedor">
 
             <div id="map">

@@ -8,9 +8,13 @@ package models.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.Hidrante;
 import utils.DbProperties;
 
 public class HidranteDao {
@@ -58,13 +62,16 @@ public class HidranteDao {
             = "INSERT INTO hidrante_prueba (latitud, longitud, caudal_esperado, tamanio_salidas) VALUES "
             + "(?, ?, ?, ?);";
 
+    private static final String OBTENER_HIDRANTES
+            = "SELECT latitud, longitud, caudal_esperado, tamanio_salidas FROM hidrante_prueba";
+
     public void ingresarHidrante(String latitud, String longitud, String caudal_esperado, String tamanio_salidas) throws Exception {
         try (Connection connection = DriverManager.getConnection(
                 dbProperties.getDbDatasource(),
                 dbProperties.getDbUser(),
                 dbProperties.getDbPassword());
                 PreparedStatement ps = connection.prepareStatement(PRUEBA_ALV);) {
-            
+
             ps.setString(1, latitud);
             ps.setString(2, longitud);
             ps.setString(3, caudal_esperado);
@@ -77,6 +84,27 @@ public class HidranteDao {
         } catch (SQLException ex) {
             Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public List<Hidrante> obtenerHidrantes() {
+        List<Hidrante> resultado = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(
+                dbProperties.getDbDatasource(),
+                dbProperties.getDbUser(),
+                dbProperties.getDbPassword());
+                PreparedStatement ps = connection.prepareStatement(OBTENER_HIDRANTES);) {
+
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Hidrante h = new Hidrante(rs.getString("latitud"),rs.getString("longitud"),rs.getString("caudal_esperado"),rs.getString("tamanio_salidas"));
+                resultado.add(h);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
     }
 
 }
