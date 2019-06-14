@@ -63,7 +63,10 @@ public class HidranteDao {
             + "(?, ?, ?, ?);";
 
     private static final String OBTENER_HIDRANTES
-            = "SELECT latitud, longitud, caudal_esperado, tamanio_salidas FROM hidrante_prueba";
+            = "SELECT latitud, longitud, caudal_esperado, tamanio_salidas, buen_estado FROM hidrante_prueba";
+
+    private static final String ACTUALIZAR_ESTADO
+            = "update hidrante_prueba set buen_estado=true where latitud=? AND longitud=?";
 
     public void ingresarHidrante(String latitud, String longitud, String caudal_esperado, String tamanio_salidas) throws Exception {
         try (Connection connection = DriverManager.getConnection(
@@ -95,9 +98,9 @@ public class HidranteDao {
                 PreparedStatement ps = connection.prepareStatement(OBTENER_HIDRANTES);) {
 
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
-                Hidrante h = new Hidrante(rs.getString("latitud"),rs.getString("longitud"),rs.getString("caudal_esperado"),rs.getString("tamanio_salidas"));
+                Hidrante h = new Hidrante(rs.getString("latitud"), rs.getString("longitud"), rs.getString("caudal_esperado"), rs.getString("tamanio_salidas"), rs.getBoolean("buen_estado"));
                 resultado.add(h);
             }
 
@@ -107,4 +110,27 @@ public class HidranteDao {
         return resultado;
     }
 
+    public Boolean actualizarEstado(String latitud, String longitud) {
+        
+        Boolean updateVerga = false;
+        
+        try (Connection connection = DriverManager.getConnection(
+                dbProperties.getDbDatasource(),
+                dbProperties.getDbUser(),
+                dbProperties.getDbPassword());
+                PreparedStatement ps = connection.prepareStatement(ACTUALIZAR_ESTADO);) {
+
+            ps.setString(1, latitud);
+            ps.setString(2, longitud);
+
+            if (ps.executeUpdate() > 0) {
+                updateVerga = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return updateVerga;
+    }
 }

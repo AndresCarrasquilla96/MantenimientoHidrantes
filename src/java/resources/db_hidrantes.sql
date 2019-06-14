@@ -30,4 +30,11 @@ CREATE TABLE hidrante (
 INSERT INTO role (descripcion) VALUES ('bombero'), ('municipalidad');
 INSERT INTO usuario (username, password, id_role) VALUES ('bombero','bombero123', 1);
 
-INSERT INTO hidrante (ubicacion, calle, caudal_esperado, tamanio_salidas, buen_estado) VALUES (point(1.0, 2.0), 'caca', '10cm3', '10cm', true);
+CREATE TABLE hidrante_prueba (
+    latitud VARCHAR(30) NOT NULL,
+    longitud VARCHAR(30) NOT NULL,
+    caudal_esperado VARCHAR (50) NOT NULL,
+    tamanio_salidas VARCHAR (50) NOT NULL,
+    buen_estado BOOLEAN DEFAULT true, 
+    CONSTRAINT pk_hidrante_prueba PRIMARY KEY (latitud,longitud)
+);

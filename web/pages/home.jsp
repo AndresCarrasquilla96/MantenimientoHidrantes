@@ -17,8 +17,6 @@
         <link href="../css/styles.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-
-        <button onclick="actualizarMarcadores()">botonAlv</button>
         
         <div class="contenedor">
 

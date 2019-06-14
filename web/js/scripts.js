@@ -9,7 +9,13 @@ var hidrante = L.icon({
     iconUrl: '../img/hidrante.png',
     iconSize:     [38, 40], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+var pichu = L.icon({
+    iconUrl: '../img/pichu.png',
+    iconSize:     [38, 40], // size of the icon
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
@@ -54,27 +60,48 @@ map.on('click', onMapClick);
                for(let i = 0; i < data.length; ++i) {
                    let lat = data[i].latitud;
                    let lng = data[i].longitud;
-                   L.marker({lat,lng}, {icon: hidrante}).addTo(map).bindPopup(`
-                        <form action="../FormularioInstalacion">
-                            <table class="formulario_instalacion">
-                                <thead> <th> Formulario Instalacion </th> </thead>
-                                <tr>
-                                    <td> <input type="hidden" id="latitud_input" class="latitud-input" name="latitud_input" value='${lat}'/> </td>
-                                </tr> 
-                                <tr>
-                                    <td> <input type="hidden" id="longitud_input" class="longitud_input" name="longitud_input" value='${lng}'/> </td>
-                                </tr>
-                                <tr>
-                                    <td> <label for="caudal_esperado">Caudal: </label> </td>
-                                    <td> <input type="text" id="caudal_esperado" name="caudal_esperado" value='${data[i].caudal_esperado}'> </td>
-                                </tr>
-                                <tr>
-                                    <td> <label for="tamanio_salidas">Tamaño Salida: </label> </td>
-                                    <td> <input type="text" id="tamanio_salidas" name="tamanio_salidas" value='${data[i].tamanio_salidas}'> </td>
-                                </tr>
-                                <tr> <td colspan="2"> <input type="submit" class="submit-btn" value="Solicitar Mantenimiento"/> </td> </tr>
-                            </table>
-                        </form>`);
+                   L.marker({lat,lng}, {icon: data[i].estado ? hidrante : pichu}).addTo(map).bindPopup(formularioMantenimiento(data[i]));
         } 
     });
 })();
+
+function funcionVerga(lat,lng) {
+    
+    let data = new FormData();
+    data.append("latitud", lat);
+    data.append("longitud", lng);
+    
+    fetch('../Hidrantes', {
+        method: "PUT",
+        body: data
+    })
+    .then(response => response.json())
+    .then( data => {
+        if (data.status === "200") location.reload();
+    });
+
+}
+
+function formularioMantenimiento(hidrante) {
+    return `
+        <form>
+            <table class="formulario_instalacion">
+                <thead> <th> Formulario Mantenimiento </th> </thead>
+                <tr>
+                    <td> <input type="hidden" id="latitud_input" class="latitud-input" name="latitud_input" value='${hidrante.latitud}'/> </td>
+                </tr> 
+                <tr>
+                    <td> <input type="hidden" id="longitud_input" class="longitud_input" name="longitud_input" value='${hidrante.longitud}'/> </td>
+                </tr>
+                <tr>
+                    <td> <label for="caudal_esperado">Caudal: </label> </td>
+                    <td> <input type="text" id="caudal_esperado" name="caudal_esperado" value='${hidrante.caudal_esperado}'> </td>
+                </tr>
+                <tr>
+                    <td> <label for="tamanio_salidas">Tamaño Salida: </label> </td>
+                    <td> <input type="text" id="tamanio_salidas" name="tamanio_salidas" value='${hidrante.tamanio_salidas}'> </td>
+                </tr>
+                <tr> <td colspan="2"> <button type="button" class="submit-btn" onclick="funcionVerga(${hidrante.latitud},${hidrante.longitud})">Solicitar Mantenimiento</button> </td> </tr>
+            </table>
+        </form>`;
+}

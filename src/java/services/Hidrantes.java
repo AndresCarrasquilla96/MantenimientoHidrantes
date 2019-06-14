@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,8 @@ import models.dao.HidranteDao;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@WebServlet
+@MultipartConfig
 public class Hidrantes extends HttpServlet {
 
     /**
@@ -30,23 +34,24 @@ public class Hidrantes extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("text/html;charset=UTF-8");
-        
+
         try (PrintWriter out = response.getWriter()) {
-            
+
             HidranteDao hidraDao = new HidranteDao();
             JSONArray hidrantes = new JSONArray();
             List<Hidrante> hidra = hidraDao.obtenerHidrantes();
             hidra.forEach(h -> {
                 JSONObject jobj = new JSONObject();
-                jobj.put("latitud",h.getLatitud());
-                jobj.put("longitud",h.getLongitud());
-                jobj.put("caudal_esperado",h.getCaudal_esperado());
-                jobj.put("tamanio_salidas",h.getTamanio_salidas());
+                jobj.put("latitud", h.getLatitud());
+                jobj.put("longitud", h.getLongitud());
+                jobj.put("caudal_esperado", h.getCaudal_esperado());
+                jobj.put("tamanio_salidas", h.getTamanio_salidas());
+                jobj.put("estado", h.getEstado());
                 hidrantes.put(jobj);
             });
-            
+
             out.println(hidrantes);
         }
     }
@@ -78,6 +83,27 @@ public class Hidrantes extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            
+            HidranteDao hidraDao = new HidranteDao();
+
+            JSONObject jobj = new JSONObject();
+            
+            String latitud = request.getParameter("latitud");
+            String longitud = request.getParameter("longitud");
+            
+            System.out.println(latitud);
+            
+            jobj.put("status", hidraDao.actualizarEstado(latitud, longitud) ? "200" : "500");
+
+            out.println(jobj);
+        }
     }
 
     /**

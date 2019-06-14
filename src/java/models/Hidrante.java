@@ -20,6 +20,7 @@ public class Hidrante implements Serializable {
     String longitud;
     String caudal_esperado;
     String tamanio_salidas;
+    Boolean estado;
     
     public Hidrante() {
     }
@@ -83,11 +84,12 @@ public class Hidrante implements Serializable {
 //        this.buen_estado = buen_estado;
 //    }
 
-    public Hidrante(String latitud, String longitud, String caudal_esperado, String tamanio_salidas) {
+    public Hidrante(String latitud, String longitud, String caudal_esperado, String tamanio_salidas, Boolean estado) {
         this.latitud = latitud;
         this.longitud = longitud;
         this.caudal_esperado = caudal_esperado;
         this.tamanio_salidas = tamanio_salidas;
+        this.estado = estado;
     }
 
     public String getLatitud() {
@@ -121,8 +123,16 @@ public class Hidrante implements Serializable {
     public void setTamanio_salidas(String tamanio_salidas) {
         this.tamanio_salidas = tamanio_salidas;
     }
-    
-    
 
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
     
 }
+
+//INSERT INTO app(p_id, the_geom)
+//VALUES(2, ST_GeomFromText('POINT(-71.060316 48.432044)', 4326));
