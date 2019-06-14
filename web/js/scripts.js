@@ -13,7 +13,7 @@ var hidrante = L.icon({
 });
 
 var pichu = L.icon({
-    iconUrl: '../img/pichu.png',
+    iconUrl: '../img/malestado.png',
     iconSize:     [38, 40], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
