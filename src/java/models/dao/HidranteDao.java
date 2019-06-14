@@ -5,6 +5,8 @@
  */
 package models.dao;
 
+import java.awt.geom.Point2D;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,10 +21,12 @@ import utils.DbProperties;
 
 public class HidranteDao {
 
-    private static final String INGRESAR_HIDRANTE
-            = "INSERT INTO hidrante (calle, avenida, numero_hidrante, caudal_esperado, tamanio_salidas) VALUES "
-            + "(?, ?, ?, ?, ?);";
     DbProperties dbProperties;
+    private static final String INGRESAR_HIDRANTE = "{call insertarHidrante(?,?,?,?)}";
+
+    private static final String OBTENER_HIDRANTES = "{call obtenerHidrantes()}";
+
+    private static final String ACTUALIZAR_ESTADO = "{call actualizarHidrante(?)}";
 
     public HidranteDao() {
         try {
@@ -35,54 +39,20 @@ public class HidranteDao {
         }
     }
 
-    public void ingresarHidrante(String calle, String avenida, Integer numero_hidrante, Double caudal_esperado, Integer tamanio_salidas) throws Exception {
-
-        try (Connection connection = DriverManager.getConnection(
-                dbProperties.getDbDatasource(),
-                dbProperties.getDbUser(),
-                dbProperties.getDbPassword());
-                PreparedStatement ps = connection.prepareStatement(INGRESAR_HIDRANTE);) {
-            ps.setString(1, calle);
-            ps.setString(2, avenida);
-            ps.setInt(3, numero_hidrante);
-            ps.setDouble(4, caudal_esperado);
-            ps.setInt(5, tamanio_salidas);
-
-            if (ps.executeUpdate() == 0) {
-                throw new Exception("Error en el HidranteDao ingresarHidrante()");
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    //-------------------
-    private static final String PRUEBA_ALV
-            = "INSERT INTO hidrante_prueba (latitud, longitud, caudal_esperado, tamanio_salidas) VALUES "
-            + "(?, ?, ?, ?);";
-
-    private static final String OBTENER_HIDRANTES
-            = "SELECT latitud, longitud, caudal_esperado, tamanio_salidas, buen_estado FROM hidrante_prueba";
-
-    private static final String ACTUALIZAR_ESTADO
-            = "update hidrante_prueba set buen_estado=true where latitud=? AND longitud=?";
-
     public void ingresarHidrante(String latitud, String longitud, String caudal_esperado, String tamanio_salidas) throws Exception {
+
         try (Connection connection = DriverManager.getConnection(
                 dbProperties.getDbDatasource(),
                 dbProperties.getDbUser(),
                 dbProperties.getDbPassword());
-                PreparedStatement ps = connection.prepareStatement(PRUEBA_ALV);) {
+                CallableStatement ps = connection.prepareCall(INGRESAR_HIDRANTE);) {
 
-            ps.setString(1, latitud);
-            ps.setString(2, longitud);
+            ps.setDouble(1, Double.parseDouble(latitud));
+            ps.setDouble(2, Double.parseDouble(longitud));
             ps.setString(3, caudal_esperado);
             ps.setString(4, tamanio_salidas);
 
-            if (ps.executeUpdate() == 0) {
-                throw new Exception("Error en el HidranteDao ingresarHidrante()");
-            }
+            ps.execute();
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,12 +65,21 @@ public class HidranteDao {
                 dbProperties.getDbDatasource(),
                 dbProperties.getDbUser(),
                 dbProperties.getDbPassword());
-                PreparedStatement ps = connection.prepareStatement(OBTENER_HIDRANTES);) {
+                CallableStatement ps = connection.prepareCall(OBTENER_HIDRANTES);) {
+
+            System.out.println("models.dao.HidranteDao.obtenerHidrantes()");
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Hidrante h = new Hidrante(rs.getString("latitud"), rs.getString("longitud"), rs.getString("caudal_esperado"), rs.getString("tamanio_salidas"), rs.getBoolean("buen_estado"));
+
+                String[] coordenadas = String.valueOf(rs.getObject("ubicacion")).split(",");
+                String lat = coordenadas[0].replace("(", "");
+                String lng = coordenadas[1].replace(")", "");
+                Point2D.Double ubicacion = new Point2D.Double(Double.parseDouble(lat), Double.parseDouble(lng));
+
+                Hidrante h = new Hidrante(rs.getInt("id_hidrante"), ubicacion, rs.getString("caudal_esperado"), rs.getString("tamanio_salidas"), rs.getBoolean("buen_estado"));
+
                 resultado.add(h);
             }
 
@@ -110,27 +89,25 @@ public class HidranteDao {
         return resultado;
     }
 
-    public Boolean actualizarEstado(String latitud, String longitud) {
-        
-        Boolean updateVerga = false;
-        
+    public Boolean actualizarEstado(Integer id_hidrante) {
+
+        Boolean update = false;
+
         try (Connection connection = DriverManager.getConnection(
                 dbProperties.getDbDatasource(),
                 dbProperties.getDbUser(),
                 dbProperties.getDbPassword());
-                PreparedStatement ps = connection.prepareStatement(ACTUALIZAR_ESTADO);) {
+                CallableStatement ps = connection.prepareCall(ACTUALIZAR_ESTADO);) {
 
-            ps.setString(1, latitud);
-            ps.setString(2, longitud);
-
-            if (ps.executeUpdate() > 0) {
-                updateVerga = true;
+            ps.setInt(1, id_hidrante);
+            if (ps.execute()) {
+                update = true;
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return updateVerga;
+
+        return update;
     }
 }

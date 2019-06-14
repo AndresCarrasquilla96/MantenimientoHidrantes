@@ -65,11 +65,10 @@ map.on('click', onMapClick);
     });
 })();
 
-function funcionVerga(lat,lng) {
+function actualizarHidrante(id_hidrante) {
     
     let data = new FormData();
-    data.append("latitud", lat);
-    data.append("longitud", lng);
+    data.append("id_hidrante", id_hidrante);
     
     fetch('../Hidrantes', {
         method: "PUT",
@@ -79,7 +78,6 @@ function funcionVerga(lat,lng) {
     .then( data => {
         if (data.status === "200") location.reload();
     });
-
 }
 
 function formularioMantenimiento(hidrante) {
@@ -101,7 +99,7 @@ function formularioMantenimiento(hidrante) {
                     <td> <label for="tamanio_salidas">Tamaño Salida: </label> </td>
                     <td> <input type="text" id="tamanio_salidas" name="tamanio_salidas" value='${hidrante.tamanio_salidas}'> </td>
                 </tr>
-                <tr> <td colspan="2"> <button type="button" class="submit-btn" onclick="funcionVerga(${hidrante.latitud},${hidrante.longitud})">Solicitar Mantenimiento</button> </td> </tr>
+                <tr> <td colspan="2"> <button type="button" class="submit-btn" onclick="actualizarHidrante(${hidrante.id_hidrante})">Solicitar Mantenimiento</button> </td> </tr>
             </table>
         </form>`;
 }

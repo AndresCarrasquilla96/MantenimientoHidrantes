@@ -44,11 +44,16 @@ public class Hidrantes extends HttpServlet {
             List<Hidrante> hidra = hidraDao.obtenerHidrantes();
             hidra.forEach(h -> {
                 JSONObject jobj = new JSONObject();
-                jobj.put("latitud", h.getLatitud());
-                jobj.put("longitud", h.getLongitud());
+                
+                jobj.put("id_hidrante", h.getId_hidrante());
+                jobj.put("latitud", h.getUbicacion().getX());
+                jobj.put("longitud", h.getUbicacion().getY());
                 jobj.put("caudal_esperado", h.getCaudal_esperado());
                 jobj.put("tamanio_salidas", h.getTamanio_salidas());
-                jobj.put("estado", h.getEstado());
+                jobj.put("estado", h.getBuen_estado());
+                
+                System.out.println(jobj);
+                
                 hidrantes.put(jobj);
             });
 
@@ -92,15 +97,9 @@ public class Hidrantes extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             
             HidranteDao hidraDao = new HidranteDao();
-
             JSONObject jobj = new JSONObject();
-            
-            String latitud = request.getParameter("latitud");
-            String longitud = request.getParameter("longitud");
-            
-            System.out.println(latitud);
-            
-            jobj.put("status", hidraDao.actualizarEstado(latitud, longitud) ? "200" : "500");
+            Integer id_hidrante = Integer.parseInt(request.getParameter("id_hidrante"));
+            jobj.put("status", hidraDao.actualizarEstado(id_hidrante) ? "200" : "500");
 
             out.println(jobj);
         }

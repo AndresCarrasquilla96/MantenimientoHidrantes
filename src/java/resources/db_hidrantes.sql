@@ -18,23 +18,13 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE hidrante (
-    numero_hidrante SERIAL,
-    ubicacion POINT,
-    calle VARCHAR(30),
-    caudal_esperado VARCHAR (50),
-    tamanio_salidas VARCHAR (50),
-    buen_estado BOOLEAN, 
-    CONSTRAINT pk_hidrante PRIMARY KEY (numero_hidrante)
+    id_hidrante SERIAL,
+    ubicacion POINT NOT NULL,
+    caudal_esperado VARCHAR (50) NOT NULL,
+    tamanio_salidas VARCHAR (50) NOT NULL,
+    buen_estado BOOLEAN DEFAULT true, 
+    CONSTRAINT pk_hidrante PRIMARY KEY (id_hidrante)
 );
 
 INSERT INTO role (descripcion) VALUES ('bombero'), ('municipalidad');
 INSERT INTO usuario (username, password, id_role) VALUES ('bombero','bombero123', 1);
-
-CREATE TABLE hidrante_prueba (
-    latitud VARCHAR(30) NOT NULL,
-    longitud VARCHAR(30) NOT NULL,
-    caudal_esperado VARCHAR (50) NOT NULL,
-    tamanio_salidas VARCHAR (50) NOT NULL,
-    buen_estado BOOLEAN DEFAULT true, 
-    CONSTRAINT pk_hidrante_prueba PRIMARY KEY (latitud,longitud)
-);
